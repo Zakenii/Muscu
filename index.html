@@ -398,6 +398,31 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
+// PIN
+const PIN = '171201';
+let pinEntry = '';
+function pinPress(d) {
+  if (pinEntry.length >= 6) return;
+  pinEntry += d;
+  document.querySelectorAll('.pin-dot').forEach((dot,i) => dot.classList.toggle('filled', i < pinEntry.length));
+  if (pinEntry.length === 6) {
+    if (pinEntry === PIN) {
+      sessionStorage.setItem('auth','1');
+      document.getElementById('pinScreen').style.display = 'none';
+    } else {
+      document.getElementById('pinError').textContent = 'Code incorrect';
+      setTimeout(() => { pinEntry = ''; document.querySelectorAll('.pin-dot').forEach(d => d.classList.remove('filled')); document.getElementById('pinError').textContent = ''; }, 800);
+    }
+  }
+}
+function pinDel() {
+  pinEntry = pinEntry.slice(0,-1);
+  document.querySelectorAll('.pin-dot').forEach((dot,i) => dot.classList.toggle('filled', i < pinEntry.length));
+}
+if (sessionStorage.getItem('auth') === '1') {
+  document.getElementById('pinScreen').style.display = 'none';
+}
+
 // Init
 const now = new Date();
 document.getElementById('sessionDate').value = todayStr();
