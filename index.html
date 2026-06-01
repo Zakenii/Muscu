@@ -186,15 +186,11 @@ function isWorkoutDay(date) {
 }
 
 function getSessionForDate(date) {
-  // Compte combien de jours d'entraînement se sont écoulés depuis une date de référence
-  const ref = new Date(2025,0,6); // lundi 6 jan 2025 = séance 0
-  let count = 0;
-  const d = new Date(ref);
-  while (d < date) {
-    if (isWorkoutDay(d)) count++;
-    d.setDate(d.getDate()+1);
-  }
-  return count % 3;
+  const dow = date.getDay(); // 0=dim,1=lun,3=mer,5=ven
+  if (dow === 1) return 0; // Lundi → Haut
+  if (dow === 3) return 1; // Mercredi → Bas
+  if (dow === 5) return 2; // Vendredi → Full Body
+  return 0;
 }
 
 function isSavedDate(dateStr) {
@@ -399,7 +395,7 @@ function showToast(msg) {
 }
 
 // PIN
-const PIN = '171201';
+const PIN = '011712';
 let pinEntry = '';
 function pinPress(d) {
   if (pinEntry.length >= 6) return;
