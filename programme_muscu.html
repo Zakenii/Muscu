@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Mon Programme</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0f0f0f;--surface:#1a1a1a;--surface2:#242424;--border:#2e2e2e;--accent:#c8f560;--text:#f0f0f0;--muted:#666}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:16px;max-width:600px;margin:0 auto;padding-bottom:40px}
+h1{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:3px;margin-bottom:20px;padding-top:12px}
+.sessions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px}
+.session-btn{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:12px 6px;border-radius:8px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;text-align:center;line-height:1.5;-webkit-appearance:none}
+.session-btn.active{background:var(--accent);border-color:var(--accent);color:#0f0f0f;font-weight:600}
+.session-label{font-size:9px;opacity:.7;display:block;margin-top:2px}
+.date-row{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.date-row input{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;flex:1;-webkit-appearance:none}
+.save-btn{background:var(--accent);color:#0f0f0f;border:none;padding:9px 18px;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap}
+.exercise{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
+.ex-header{padding:13px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.ex-name{font-size:14px;font-weight:500;line-height:1.3}
+.ex-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:3px}
+.ex-toggle{color:var(--muted);font-size:20px;transition:.2s;flex-shrink:0;margin-left:8px}
+.ex-body{display:none;padding:0 14px 14px;border-top:1px solid var(--border)}
+.ex-body.open{display:block}
+.sets-grid{display:grid;grid-template-columns:32px 1fr 1fr;gap:7px;align-items:center;margin-top:12px}
+.col-label{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-align:center}
+.col-label:first-child{text-align:left}
+.set-num{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);background:var(--surface2);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500}
+.set-input{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 6px;border-radius:6px;font-size:15px;font-family:'DM Mono',monospace;text-align:center;width:100%;-webkit-appearance:none;appearance:none}
+.set-input:focus{outline:none;border-color:var(--accent)}
+.set-input.filled{border-color:#3a6010;background:#1a2e08}
+.note{font-size:11px;color:var(--muted);margin-top:12px;line-height:1.6;font-style:italic;border-left:2px solid var(--border);padding-left:10px}
+.history-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:5px;font-size:11px;cursor:pointer;margin-top:12px;font-family:'DM Mono',monospace;display:block}
+.history-panel{display:none;margin-top:8px;background:var(--bg);border-radius:6px;padding:10px}
+.history-panel.open{display:block}
+.history-entry{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);padding:5px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.history-entry:last-child{border:none}
+.history-entry .h-date{color:var(--accent)}
+.history-entry .h-weights{color:var(--text)}
+.cardio{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 14px;margin-bottom:10px;font-size:13px;color:var(--muted)}
+.cardio strong{color:var(--text);font-weight:500}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--accent);color:#0f0f0f;padding:10px 22px;border-radius:20px;font-weight:600;font-size:13px;opacity:0;transition:.3s;pointer-events:none;z-index:99;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<h1>Programme Musculation</h1>
+
+<div class="sessions">
+  <button class="session-btn active" onclick="loadSession(0)">💪 Séance 1<span class="session-label">Haut</span></button>
+  <button class="session-btn" onclick="loadSession(1)">🦵 Séance 2<span class="session-label">Bas</span></button>
+  <button class="session-btn" onclick="loadSession(2)">🏋️ Séance 3<span class="session-label">Full Body</span></button>
+</div>
+
+<div class="date-row">
+  <input type="date" id="sessionDate">
+  <button class="save-btn" onclick="saveSession()">Sauvegarder</button>
+</div>
+
+<div id="exerciseList"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const PROGRAM = [
+  {
+    name:"Séance 1 – Haut",
+    exercises:[
+      {name:"Développé couché barre / guidée",sets:4,reps:"8",rest:"2-3 min",note:"Échauffement : 1x10 vide + 1x5 moyen. Si tu peux repartir pour une série → monte le poids"},
+      {name:"Rowing haltère ou barre",sets:4,reps:"8",rest:"2-3 min",note:"Dos neutre. Même règle de progression"},
+      {name:"Tractions élastiques / australiennes",sets:4,reps:"8",rest:"2 min",note:"Augmente la difficulté (moins d'élastique) quand tu passes la règle"},
+      {name:"Élévations latérales poulie",sets:3,reps:"10",rest:"1 min",note:"Arrête-toi 1-2 reps avant l'échec. Monte le poids si tu passes la règle"},
+      {name:"Curl biceps",sets:3,reps:"10",rest:"1 min",note:"Isolation — idem"},
+      {name:"Pompes",sets:4,reps:"max",rest:"1 min",note:"Arrête-toi 2 reps avant l'échec"},
+      {name:"Shrug haltères",sets:3,reps:"10",rest:"1 min",note:"Monte le poids si tu passes la règle"},
+      {name:"Extension triceps poulie",sets:3,reps:"10",rest:"1 min",note:"Arrête-toi 1-2 reps avant l'échec"},
+      {name:"Pullover poulie",sets:3,reps:"10",rest:"1 min",note:"Idem"},
+      {name:"Circuit abdos",sets:1,reps:"—",rest:"—",note:"1 circuit"},
+      {name:"Cardio — 20 min",cardio:true,note:"Marche / incliné / rameur / vélo"},
+    ]
+  },
+  {
+    name:"Séance 2 – Bas",
+    exercises:[
+      {name:"Squat barre / guidée",sets:4,reps:"8",rest:"2-3 min",note:"Échauffement : 1x10 vide + 1x5 moyen. Si tu peux repartir → monte le poids"},
+      {name:"Leg extension",sets:3,reps:"10",rest:"1 min",note:"Arrête-toi 1-2 reps avant l'échec. Monte le poids si tu passes la règle"},
+      {name:"Leg curl",sets:3,reps:"10",rest:"1 min",note:"Isolation — idem"},
+      {name:"Extensions mollets",sets:4,reps:"10",rest:"1 min",note:"Pause 1s en haut. Monte le poids si tu passes la règle"},
+      {name:"Squats sautés",sets:3,reps:"10",rest:"1 min",note:"Sans poids, explosif"},
+      {name:"Circuit gainage",sets:1,reps:"—",rest:"—",note:"1 circuit"},
+      {name:"Cardio — 20 min",cardio:true,note:"Marche / incliné / rameur / vélo"},
+    ]
+  },
+  {
+    name:"Séance 3 – Full Body",
+    exercises:[
+      {name:"Développé militaire",sets:4,reps:"8",rest:"2-3 min",note:"Échauffement : 1x10 vide + 1x5 moyen. Si tu peux repartir → monte le poids"},
+      {name:"Squat barre / guidée",sets:4,reps:"8",rest:"2-3 min",note:"Même règle"},
+      {name:"Rowing haltère ou barre",sets:4,reps:"8",rest:"2-3 min",note:"Dos neutre. Même règle"},
+      {name:"Écarté poulie bas → haut",sets:3,reps:"10",rest:"1 min",note:"Ciblage haut des pecs. Monte le poids si tu passes la règle"},
+      {name:"Tractions élastiques / australiennes",sets:4,reps:"8",rest:"2 min",note:"Augmente la difficulté quand tu passes la règle"},
+      {name:"Curl marteau",sets:3,reps:"10",rest:"1 min",note:"Arrête-toi 1-2 reps avant l'échec"},
+      {name:"Dips",sets:3,reps:"max",rest:"1 min",note:"Arrête-toi 2 reps avant l'échec"},
+      {name:"Leg extension",sets:3,reps:"10",rest:"1 min",note:"Arrête-toi 1-2 reps avant l'échec"},
+      {name:"Squats sautés (arrêt bas)",sets:3,reps:"8",rest:"1 min",note:"Sans poids"},
+      {name:"Cardio — 20 min",cardio:true,note:"Marche / incliné / rameur / vélo"},
+    ]
+  }
+];
+
+let currentSession = 0;
+
+function getToday() {
+  return document.getElementById('sessionDate').value || new Date().toISOString().split('T')[0];
+}
+
+function loadSession(idx) {
+  currentSession = idx;
+  document.querySelectorAll('.session-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  renderExercises();
+}
+
+function renderExercises() {
+  const list = document.getElementById('exerciseList');
+  const session = PROGRAM[currentSession];
+  const today = getToday();
+  const savedKey = `s${currentSession}_${today}`;
+  const saved = JSON.parse(localStorage.getItem(savedKey)||'{}');
+
+  list.innerHTML = '';
+  session.exercises.forEach((ex, ei) => {
+    if (ex.cardio) {
+      list.innerHTML += `<div class="cardio"><strong>🏃 ${ex.name}</strong> — ${ex.note}</div>`;
+      return;
+    }
+
+    const rows = [];
+    for (let s = 0; s < ex.sets; s++) {
+      const wKey = `${ei}_${s}_w`;
+      const rKey = `${ei}_${s}_r`;
+      const wVal = saved[wKey] || '';
+      const rVal = saved[rKey] || '';
+      rows.push(`
+        <div class="set-num">${s+1}</div>
+        <input class="set-input ${wVal?'filled':''}" type="number" inputmode="decimal" placeholder="kg" value="${wVal}"
+          onchange="autoSave(${ei},${s},'w',this.value)" oninput="this.classList.toggle('filled',!!this.value)">
+        <input class="set-input ${rVal?'filled':''}" type="number" inputmode="numeric" placeholder="${ex.reps}" value="${rVal}"
+          onchange="autoSave(${ei},${s},'r',this.value)" oninput="this.classList.toggle('filled',!!this.value)">
+      `);
+    }
+
+    const history = getHistory(ei);
+    const histHtml = history.length ? `
+      <button class="history-btn" onclick="toggleHistory(this)">📈 Historique (${history.length} séances)</button>
+      <div class="history-panel">
+        ${history.map(h => `
+          <div class="history-entry">
+            <span class="h-date">${formatDate(h.date)}</span>
+            <span class="h-weights">${h.weights.map(w => w||'—').join(' / ')} kg</span>
+          </div>`).join('')}
+      </div>` : '';
+
+    list.innerHTML += `
+      <div class="exercise">
+        <div class="ex-header" onclick="toggleEx(this)">
+          <div style="flex:1">
+            <div class="ex-name">${ex.name}</div>
+            <div class="ex-meta">${ex.sets}×${ex.reps} · repos ${ex.rest}</div>
+          </div>
+          <div class="ex-toggle">›</div>
+        </div>
+        <div class="ex-body">
+          <div class="sets-grid">
+            <div class="col-label">série</div>
+            <div class="col-label">poids</div>
+            <div class="col-label">reps</div>
+            ${rows.join('')}
+          </div>
+          <div class="note">${ex.note}</div>
+          ${histHtml}
+        </div>
+      </div>`;
+  });
+}
+
+function toggleEx(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.ex-toggle');
+  const isOpen = body.classList.toggle('open');
+  toggle.style.transform = isOpen ? 'rotate(90deg)' : '';
+}
+
+function toggleHistory(btn) {
+  btn.nextElementSibling.classList.toggle('open');
+}
+
+function autoSave(ei, si, type, val) {
+  const key = `s${currentSession}_${getToday()}`;
+  const saved = JSON.parse(localStorage.getItem(key)||'{}');
+  saved[`${ei}_${si}_${type}`] = val;
+  localStorage.setItem(key, JSON.stringify(saved));
+}
+
+function getHistory(exIdx) {
+  const entries = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k.startsWith(`s${currentSession}_`)) continue;
+    const date = k.replace(`s${currentSession}_`, '');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) continue;
+    const data = JSON.parse(localStorage.getItem(k)||'{}');
+    const ex = PROGRAM[currentSession].exercises[exIdx];
+    if (!ex || ex.cardio) continue;
+    const weights = [];
+    for (let s = 0; s < ex.sets; s++) weights.push(data[`${exIdx}_${s}_w`]||'');
+    if (weights.some(Boolean)) entries.push({date, weights});
+  }
+  return entries.sort((a,b) => b.date.localeCompare(a.date)).slice(0, 8);
+}
+
+function formatDate(d) {
+  const [y,m,day] = d.split('-');
+  return `${day}/${m}/${y}`;
+}
+
+function saveSession() {
+  showToast('Séance sauvegardée ✓');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+document.getElementById('sessionDate').value = new Date().toISOString().split('T')[0];
+document.getElementById('sessionDate').addEventListener('change', renderExercises);
+renderExercises();
+</script>
+</body>
+</html>
