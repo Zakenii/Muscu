@@ -403,7 +403,7 @@ const PIN = '171201';
 let pinEntry = '';
 function pinPress(d) {
   if (pinEntry.length >= 6) return;
-  pinEntry += d;
+  pinEntry += String(d);
   document.querySelectorAll('.pin-dot').forEach((dot,i) => dot.classList.toggle('filled', i < pinEntry.length));
   if (pinEntry.length === 6) {
     if (pinEntry === PIN) {
