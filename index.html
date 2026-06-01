@@ -131,37 +131,37 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 <script>
 const PROGRAM = [
   {name:"Séance 1 – Haut",exercises:[
-    {name:"Développé couché barre / guidée",sets:4,reps:"8",rest:"2-3 min",note:"Échauffement : 1x10 vide + 1x5 moyen. Si tu peux repartir → monte le poids"},
-    {name:"Rowing haltère ou barre",sets:4,reps:"8",rest:"2-3 min",note:"Dos neutre. Même règle de progression"},
-    {name:"Tractions négatives + élastique",sets:4,reps:"4",rest:"2 min",note:"Élastique pour atteindre 4 reps max. Réduis l'élastique quand tu peux faire plus de 4 reps proprement"},
-    {name:"Élévations latérales poulie",sets:3,reps:"10",rest:"1 min",note:"Arrête-toi 1-2 reps avant l'échec"},
-    {name:"Curl biceps",sets:3,reps:"10",rest:"1 min",note:"Isolation — idem"},
-    {name:"Pompes",sets:4,reps:"max",rest:"1 min",note:"Arrête-toi 2 reps avant l'échec"},
-    {name:"Shrug haltères",sets:3,reps:"10",rest:"1 min",note:"Monte le poids si tu passes la règle"},
-    {name:"Extension triceps poulie",sets:3,reps:"10",rest:"1 min",note:"Arrête-toi 1-2 reps avant l'échec"},
-    {name:"Pullover poulie",sets:3,reps:"10",rest:"1 min",note:"Idem"},
+    {name:"Développé couché barre / guidée",sets:4,reps:"8-12",rest:"2 min",note:"Échauffement : 1x10 vide + 1x5 moyen. Si tu peux repartir → monte le poids"},
+    {name:"Rowing haltère ou barre",sets:4,reps:"8-12",rest:"2 min",note:"Dos neutre. Même règle de progression"},
+    {name:"Tractions négatives + élastique",sets:4,reps:"8-12",rest:"2 min",note:"Élastique pour atteindre 4 reps max. Réduis l'élastique quand tu peux faire plus de 4 reps proprement"},
+    {name:"Élévations latérales poulie",sets:3,reps:"8-12",rest:"1 min 30",note:"Arrête-toi 1-2 reps avant l'échec"},
+    {name:"Curl biceps",sets:3,reps:"8-12",rest:"1 min 30",note:"Isolation — idem"},
+    {name:"Pompes",sets:4,reps:"8-12",rest:"1 min 30",note:"Arrête-toi 2 reps avant l'échec"},
+    {name:"Shrug haltères",sets:3,reps:"8-12",rest:"1 min 30",note:"Monte le poids si tu passes la règle"},
+    {name:"Extension triceps poulie",sets:3,reps:"8-12",rest:"1 min 30",note:"Arrête-toi 1-2 reps avant l'échec"},
+    {name:"Pullover poulie",sets:3,reps:"8-12",rest:"1 min 30",note:"Idem"},
     {name:"Circuit abdos",sets:1,reps:"—",rest:"—",note:"1 circuit"},
     {name:"Cardio — 20 min",cardio:true,note:"Marche / incliné / rameur / vélo"},
   ]},
   {name:"Séance 2 – Bas",exercises:[
-    {name:"Squat barre / guidée",sets:4,reps:"8",rest:"2-3 min",note:"Échauffement : 1x10 vide + 1x5 moyen. Si tu peux repartir → monte le poids"},
-    {name:"Leg extension",sets:3,reps:"10",rest:"1 min",note:"Arrête-toi 1-2 reps avant l'échec"},
-    {name:"Leg curl",sets:3,reps:"10",rest:"1 min",note:"Isolation — idem"},
-    {name:"Extensions mollets",sets:4,reps:"10",rest:"1 min",note:"Pause 1s en haut. Monte le poids si tu passes la règle"},
-    {name:"Squats sautés",sets:3,reps:"10",rest:"1 min",note:"Sans poids, explosif"},
+    {name:"Squat barre / guidée",sets:4,reps:"8-12",rest:"2 min",note:"Échauffement : 1x10 vide + 1x5 moyen. Si tu peux repartir → monte le poids"},
+    {name:"Leg extension",sets:3,reps:"8-12",rest:"1 min 30",note:"Arrête-toi 1-2 reps avant l'échec"},
+    {name:"Leg curl",sets:3,reps:"8-12",rest:"1 min 30",note:"Isolation — idem"},
+    {name:"Extensions mollets",sets:4,reps:"8-12",rest:"1 min 30",note:"Pause 1s en haut. Monte le poids si tu passes la règle"},
+    {name:"Squats sautés",sets:3,reps:"8-12",rest:"1 min 30",note:"Sans poids, explosif"},
     {name:"Circuit gainage",sets:1,reps:"—",rest:"—",note:"1 circuit"},
     {name:"Cardio — 20 min",cardio:true,note:"Marche / incliné / rameur / vélo"},
   ]},
   {name:"Séance 3 – Full Body",exercises:[
-    {name:"Développé militaire",sets:4,reps:"8",rest:"2-3 min",note:"Échauffement : 1x10 vide + 1x5 moyen. Si tu peux repartir → monte le poids"},
-    {name:"Squat barre / guidée",sets:4,reps:"8",rest:"2-3 min",note:"Même règle"},
-    {name:"Rowing haltère ou barre",sets:4,reps:"8",rest:"2-3 min",note:"Dos neutre. Même règle"},
-    {name:"Écarté poulie bas → haut",sets:3,reps:"10",rest:"1 min",note:"Ciblage haut des pecs. Monte le poids si tu passes la règle"},
-    {name:"Tractions négatives + élastique",sets:4,reps:"4",rest:"2 min",note:"Élastique pour atteindre 4 reps max. Réduis l'élastique quand tu peux faire plus de 4 reps proprement"},
-    {name:"Curl marteau",sets:3,reps:"10",rest:"1 min",note:"Arrête-toi 1-2 reps avant l'échec"},
-    {name:"Dips",sets:3,reps:"max",rest:"1 min",note:"Arrête-toi 2 reps avant l'échec"},
-    {name:"Leg extension",sets:3,reps:"10",rest:"1 min",note:"Arrête-toi 1-2 reps avant l'échec"},
-    {name:"Squats sautés (arrêt bas)",sets:3,reps:"8",rest:"1 min",note:"Sans poids"},
+    {name:"Développé militaire",sets:4,reps:"8-12",rest:"2 min",note:"Échauffement : 1x10 vide + 1x5 moyen. Si tu peux repartir → monte le poids"},
+    {name:"Squat barre / guidée",sets:4,reps:"8-12",rest:"2 min",note:"Même règle"},
+    {name:"Rowing haltère ou barre",sets:4,reps:"8-12",rest:"2 min",note:"Dos neutre. Même règle"},
+    {name:"Écarté poulie bas → haut",sets:3,reps:"8-12",rest:"1 min 30",note:"Ciblage haut des pecs. Monte le poids si tu passes la règle"},
+    {name:"Tractions négatives + élastique",sets:4,reps:"8-12",rest:"2 min",note:"Élastique pour atteindre 4 reps max. Réduis l'élastique quand tu peux faire plus de 4 reps proprement"},
+    {name:"Curl marteau",sets:3,reps:"8-12",rest:"1 min 30",note:"Arrête-toi 1-2 reps avant l'échec"},
+    {name:"Dips",sets:3,reps:"8-12",rest:"1 min 30",note:"Arrête-toi 2 reps avant l'échec"},
+    {name:"Leg extension",sets:3,reps:"8-12",rest:"1 min 30",note:"Arrête-toi 1-2 reps avant l'échec"},
+    {name:"Squats sautés (arrêt bas)",sets:3,reps:"8-12",rest:"1 min 30",note:"Sans poids"},
     {name:"Cardio — 20 min",cardio:true,note:"Marche / incliné / rameur / vélo"},
   ]}
 ];
@@ -395,7 +395,7 @@ function showToast(msg) {
 }
 
 // PIN
-const PIN = '011712';
+const PIN = '171201';
 let pinEntry = '';
 function pinPress(d) {
   if (pinEntry.length >= 6) return;
